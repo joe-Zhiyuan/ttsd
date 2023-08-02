@@ -11,11 +11,12 @@ export const constantRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/index'),
+    name: 'login',
     hidden: true
   }
 ]
 
-// ？？？
+// scrollBehavior 滚动行为 切换新路由，页面滚动到顶部
 const createRouter = () => new Router({
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
