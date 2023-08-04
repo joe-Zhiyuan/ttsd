@@ -45,6 +45,8 @@
     }
     .contact {
       font-size: 14px;
+      height: 24px;
+      line-height: 24px;
       a {
         padding-right: 20px;
         border-right: 1px solid #ccc;

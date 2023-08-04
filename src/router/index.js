@@ -13,7 +13,13 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     name: 'login',
     hidden: true
-  }
+  },
+  {
+    path: '/resetLogin',
+    component: () => import('@/views/login/index'),
+    name: 'resetLogin',
+    hidden: true
+  },
 ]
 
 // scrollBehavior 滚动行为 切换新路由，页面滚动到顶部
