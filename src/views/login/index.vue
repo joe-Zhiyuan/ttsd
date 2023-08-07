@@ -4,12 +4,12 @@
     <div class="loginCenter">
       <img src="../../assets/loginBG@2x.png" alt="LoginBG">
       <div class="loginBox">
-        <el-form ref="loginForm" class="login-form" autocomplete="on" label-position="left">
+        <el-form ref="form" :model="form" status-icon :rules="formRules" class="login-form" autocomplete="on" label-position="left">
           <h3>登录</h3>
           <el-tabs v-model="activeName" stretch @tab-click="handleClick">
             <el-tab-pane label="密码登录" name="first">
               <el-form-item>
-                <el-input v-model="form.userPhone" placeholder="请输入手机号" class="formInput" max="11"
+                <el-input v-model.number="form.userPhone" placeholder="请输入手机号" class="formInput" max="11"
                   prefix-icon="el-icon-mobile-phone" clearable></el-input>
               </el-form-item>
               <el-form-item>
@@ -23,7 +23,16 @@
                 </div>
               </el-form-item>
               <el-form-item>
-                <el-button class="" type="primary" @click="onSubmit">立即登录</el-button>
+                <el-button :loading="loading" type="primary" @click="onSubmit">立即登录</el-button>
+              </el-form-item>
+              <el-form-item>
+                <div class="formTip">
+                  <div>登录即同意:
+                    <a href="//nprivacy.tticar.com/ttsd/privacy.html" target="_blank">《用户服务协议》</a>
+                    和
+                    <a href="//nprivacy.tticar.com/ttsd/privacyPolicy.html" target="_blank">《隐私权政策》</a>
+                  </div>
+                </div>
               </el-form-item>
             </el-tab-pane>
             <el-tab-pane label="验证码登录" name="second">
@@ -41,17 +50,41 @@
 <script>
   import Header from './header.vue';
   import Footer from './footer.vue';
+  // 引入数据格式验证
+  // import ValidateName from '@/utils/validate'
 
   export default {
     name: 'Login',
     components: { Header, Footer },
     data() {
+      // 校验规则 用户名等
+      const validateName = (rule, value, callback) => {
+        console.log(rule, value, callback);
+        if (value.length < 11) {
+          callback(new Error('手机号长度必须等于11位！'))
+        } else {
+          callback()
+        }
+      }
+      const validatePassword = (rule, value, callback) => {
+        console.log(rule, value, callback);
+        if (value.length < 6) {
+          callback(new Error('密码长度必须大于6位！'))
+        } else {
+          callback()
+        }
+      }
       return {
         activeName: 'first',
+        loading: false, // 请求锁
         form: {
           userPhone: '',
           passWord: '',
           checked: false,
+        },
+        formRules: {
+          userPhone: [{trigger: 'blur', validator: validateName}],
+          passWord: [{validator: validatePassword, trigger: 'blur'}]
         }
       };
     },
@@ -60,7 +93,17 @@
         console.log(tab, event);
       },
       onSubmit() {
-        console.log('submit!');
+        this.$refs.form.validate(valid => {
+          if (valid) {
+            this.loading = true;
+            console.log(valid);
+            this.loading = false;
+          } else {
+            console.log('error submit!');
+            this.loading = false;
+            return false
+          }
+        })
       }
     }
   }
@@ -102,14 +145,17 @@
           padding: 28px 40px;
           background: #fff;
           border-radius: 6px;
-          // 穿透组件样式
+          // 穿透组件样式 修改子组件样式[scoped]
           .formInput ::v-deep .el-input__inner {
             border-radius: unset;
           }
           .formCheck {
             display: flex;
             justify-content: space-between;
-            padding: 0 2px
+            padding: 0 2px;
+            .link {
+              color: #999;
+            }
           }
           .el-button--primary {
             width: 100%;
@@ -118,6 +164,12 @@
             padding: 14px 12px;
             font-size: 16px;
             border-radius: 2px;
+          }
+          .formTip {
+            font-size: 10px;
+            a {
+              color: #999;
+            }
           }
         }
       }
