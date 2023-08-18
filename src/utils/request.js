@@ -14,7 +14,8 @@ service.interceptors.request.use(config => {
   // 发送请求前
 
   if (store.getters.token) {
-    config.headers['Authorization'] = getToken()
+    config.headers['Authorization'] = getToken(),
+    config.headers['X-Client-Id'] = 'TTSD_PC'
   }
   return config
 }, error => {

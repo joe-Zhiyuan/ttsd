@@ -95,11 +95,13 @@
           if (valid) {
             this.loading = true;
             console.log(this)
-            // this.$store.dispatch('user/login', this.loginForm)
+            this.$store.dispatch('user/loginInPassWord', this.loginForm).then(() => {
+              this.loading = false;
+            }).catch(() => {
+              this.loading = false;
+            })
             // this.$store.commit('increment')
-            this.$store.commit('increment', {count: 10})
-            console.log(this.$store.state.count)
-            this.loading = false;
+            // this.$store.commit('increment', {count: 10})
           } else {
             console.log('登录错误!');
             this.loading = false;

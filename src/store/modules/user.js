@@ -48,7 +48,8 @@ const actions = {
 }
 
 export default {
-  namespace: true,
+  // 命名空间，true会根据路径调整命名 uesr/loginInPassWord  继承父模块命名/嵌套命名
+  namespaced: true,
   state,
   mutations,
   actions
