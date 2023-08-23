@@ -6,7 +6,10 @@ import { getToken } from "./auth";
 // 设置多个 baseURL,请求不同api地址 超时时间
 const service = axios.create({
   baseURL: 'https://tapi.tticar.com/express',
-  timeout: 5000
+  timeout: 5000,
+  headers: {
+    'X-Client-Id': 'TTSD_PC'
+  }
 })
 
 // request 请求拦截
@@ -14,8 +17,7 @@ service.interceptors.request.use(config => {
   // 发送请求前
 
   if (store.getters.token) {
-    config.headers['Authorization'] = getToken(),
-    config.headers['X-Client-Id'] = 'TTSD_PC'
+    config.headers['Authorization'] = getToken()
   }
   return config
 }, error => {

@@ -36,9 +36,10 @@ const mutations = {
 const actions = {
   // 登录
   loginInPassWord({ commit }, userInfo) {
-    const { username, password } = userInfo;
+    console.log(commit, userInfo);
+    const { username, password, clientId, clientSecret } = userInfo;
     return new Promise((resolve, reject) => {
-      loginInPassWord({ username, password }).then(response => {
+      loginInPassWord({ username, password, clientId, clientSecret }).then(response => {
         const { data } = response;
         console.log(data);
       }).catch(err => reject(err));

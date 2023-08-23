@@ -8,12 +8,12 @@
           <h3>登录</h3>
           <el-tabs v-model="activeName" stretch @tab-click="handleClick">
             <el-tab-pane label="密码登录" name="first">
-              <el-form-item prop="userPhone">
-                <el-input v-model="loginForm.userPhone" type="text" placeholder="请输入手机号" class="formInput" max="11"
+              <el-form-item prop="username">
+                <el-input v-model="loginForm.username" type="text" placeholder="请输入手机号" class="formInput" max="11"
                   prefix-icon="el-icon-mobile-phone" clearable></el-input>
               </el-form-item>
               <el-form-item prop="passWord">
-                <el-input v-model="loginForm.passWord" type="password" placeholder="请输入密码"  class="formInput"
+                <el-input v-model="loginForm.password" type="password" placeholder="请输入密码"  class="formInput"
                   prefix-icon="el-icon-unlock" clearable show-password></el-input>
               </el-form-item>
               <el-form-item>
@@ -76,13 +76,15 @@
         activeName: 'first',
         loading: false, // 请求锁
         loginForm: {
-          userPhone: '',
-          passWord: '',
+          username: '',
+          password: '',
+	        clientId: 'TTSD_PC',
+          clientSecret: '123456',
           checked: false,
         },
         formRules: {
-          userPhone: [{trigger: 'blur', validator: validateName}],
-          passWord: [{trigger: 'blur', validator: validatePassword}]
+          username: [{trigger: 'blur', validator: validateName}],
+          password: [{trigger: 'blur', validator: validatePassword}]
         }
       };
     },
@@ -94,7 +96,6 @@
         this.$refs.loginForm.validate(valid => {
           if (valid) {
             this.loading = true;
-            console.log(this)
             this.$store.dispatch('user/loginInPassWord', this.loginForm).then(() => {
               this.loading = false;
             }).catch(() => {
