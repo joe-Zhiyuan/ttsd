@@ -56,7 +56,7 @@ service.interceptors.response.use(response => {
     }
 
     // 返回错误
-    return Promise.reject(new Error(res.message || 'Error'));
+    return Promise.reject(new Error(res.message || '错误！请联系客服人员'));
   }
   return response
 }, error => {

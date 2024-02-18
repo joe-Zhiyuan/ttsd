@@ -29,7 +29,7 @@ Vue.use(Element, {
 })
 
 // 去除生产提示
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
   render: h => h(App),
