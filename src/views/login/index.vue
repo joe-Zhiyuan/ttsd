@@ -93,16 +93,21 @@
         console.log(tab, event);
       },
       onLogin() {
+        let that = this;
         this.$refs.loginForm.validate(valid => {
           if (valid) {
-            this.loading = true;
-            this.$store.dispatch('user/loginInPassWord', this.loginForm).then(() => {
-              this.loading = false;
+            that.loading = true;
+            that.$store.dispatch('user/loginInPassWord', that.loginForm).then(() => {
+              that.loading = false;
+              console.log(that, this);
+              // 登录成功跳转首页
+              that.$router.push('/index');
             }).catch(() => {
               this.loading = false;
             })
             // this.$store.commit('increment')
             // this.$store.commit('increment', {count: 10})
+
           } else {
             console.log('登录错误!');
             this.loading = false;

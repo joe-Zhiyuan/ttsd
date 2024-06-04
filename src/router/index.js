@@ -15,6 +15,12 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/index',
+    component: () => import('@/views/index/index'),
+    name: 'index',
+    hidden: true
+  },
+  {
     path: '/resetLogin',
     component: () => import('@/views/login/index'),
     name: 'resetLogin',
